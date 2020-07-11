@@ -1,14 +1,16 @@
-namespace TF.CheatsGUI
+﻿namespace TF.CheatsGUI
 {
 	using System.Reflection;
 	using UnityEngine;
 
+	// TODO TF: #region
 	public class GUI_CheatButton
 	{
 		private readonly MethodInfo _methodInfo = null;
+		private bool _enabled = true;
 		private string _overridedButtonLabel = null;
 
-		// TODO TF: Be able to override _methodInfo.Name
+		public bool Enabled { get => _enabled; set => _enabled = value; }
 
 		// TODO TF: Nicify _methodInfo name
 		public string ButtonLabel
@@ -29,10 +31,8 @@ namespace TF.CheatsGUI
 
 		public void Draw()
 		{
-			if (_methodInfo.GetParameters().Length > 0)
+			if (_enabled == false || _methodInfo.GetParameters().Length > 0)
 				return;
-
-			// TODO TF: Don't draw method if _enabled == false
 
 			// TODO TF: Draw parameters (if method has parameters)
 			bool clickedOnButton = GUILayout.Button(ButtonLabel);
