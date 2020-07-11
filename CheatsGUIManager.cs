@@ -11,6 +11,7 @@ namespace TF.CheatsGUI
 	{
 		#region Fields
 		public const string DEBUG_LOG_HEADER = "<color=cyan>Cheats GUI</color> :";
+		private const string MENU_TITLE = "Cheats Menu";
 
 		[Header("INPUTS SETTINGS")]
 		[SerializeField] private KeyCode _keyToToggleCheatsMenu = KeyCode.C;
@@ -22,6 +23,12 @@ namespace TF.CheatsGUI
 
 		private bool _isCheatsMenuOpen = false;
 		private GUI_CheatButton[] _cheatsButton = null;
+		#endregion
+
+		#region Properties
+		private GUIStyle BackgroundStyle => new GUIStyle(GUI.skin.box);
+		private GUIStyle MarginStyle => new GUIStyle { margin = _margin };
+		private GUIStyle MenuTitleStyle => new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
 		#endregion
 
 		#region Methods
@@ -41,21 +48,14 @@ namespace TF.CheatsGUI
 			if (!_isCheatsMenuOpen)
 				return;
 
-			GUIStyle margin = new GUIStyle
-			{
-				margin = _margin
-			};
-
-			GUIStyle backgroundStyle = new GUIStyle(GUI.skin.box);
-			
-			// TODO TF: add label "cheats menu"			
-
 			// This first vertical group is only used to have a margin
-			GUILayout.BeginVertical(margin);
+			GUILayout.BeginVertical(MarginStyle);
 			{
 				// This second vertical group set the background style
-				GUILayout.BeginVertical(backgroundStyle);
+				GUILayout.BeginVertical(BackgroundStyle);
 				{
+					GUILayout.Label(MENU_TITLE, MenuTitleStyle);
+
 					for (int i = 0, length = _cheatsButton.Length; i < length; i++)
 					{
 						_cheatsButton[i].Draw();
