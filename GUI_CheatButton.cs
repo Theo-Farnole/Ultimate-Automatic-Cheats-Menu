@@ -16,13 +16,15 @@ namespace TF.CheatsGUI
 
 			if (_methodInfo.GetParameters().Length > 0)
 			{
-				Debug.LogWarningFormat("Attribute 'CheatMethod' doesn't support method with parameters.");
+				Debug.LogWarningFormat("Button for method '{0}' will not be drawn: attribute 'CheatMethod' doesn't support method with parameters.", _methodInfo.Name);
 			}
 		}
 
 		public void Draw()
 		{
-			// TODO TF: Don't draw method if method has parameters
+			if (_methodInfo.GetParameters().Length > 0)
+				return;
+
 			// TODO TF: Don't draw method if _enabled == false
 
 			// TODO TF: Draw parameters (if method has parameters)
