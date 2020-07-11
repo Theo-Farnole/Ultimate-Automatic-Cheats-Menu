@@ -1,4 +1,4 @@
-﻿namespace TF.CheatsGUI
+namespace TF.CheatsGUI
 {
 	using System.Reflection;
 	using UnityEngine;
@@ -7,6 +7,7 @@
 	{
 		private readonly MethodInfo _methodInfo = null;
 
+		public string ButtonLabel => _methodInfo.Name;
 		public GUI_CheatButton(MethodInfo methodInfo)
 		{
 			_methodInfo = methodInfo ?? throw new System.ArgumentNullException();
@@ -21,7 +22,7 @@
 		{
 			// TODO TF: Be able to override _methodInfo.Name
 			// TODO TF: Draw parameters (if method has parameters)
-			bool clickedOnButton = GUILayout.Button(_methodInfo.Name);
+			bool clickedOnButton = GUILayout.Button(ButtonLabel);
 
 			if (clickedOnButton)
 			{

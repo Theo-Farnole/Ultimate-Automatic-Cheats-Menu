@@ -1,4 +1,4 @@
-﻿namespace TF.CheatsGUI
+namespace TF.CheatsGUI
 {
 	using UnityEngine;
 	using TF.CheatsGUI.Utilities;
@@ -17,7 +17,7 @@
 		[SerializeField] private KeyCode[] _keysModifierToToggleCheatsMenu = new KeyCode[] { KeyCode.LeftShift }; // press SHIFT + C simulatenously
 		[Header("GUI SETTINGS")]
 		[SerializeField] private Vector2 _margin = new Vector2(10, 10);
-		[SerializeField] private Vector2 _buttonSize = new Vector2(100, 100);
+		[SerializeField] private float _buttonHeight = 100;
 
 		// TODO TF: Able to change position of cheats menu pivot point (top left, top right, etc..)
 
@@ -36,7 +36,7 @@
 					return new Rect();
 				}
 
-				return new Rect(_margin.x, _margin.y, _buttonSize.x, _cheatsButton.Length * _buttonSize.y);
+				return new Rect(_margin.x, _margin.y, GetButtonWidth(), GetButtonHeight());
 			}
 		}
 		#endregion
@@ -120,6 +120,20 @@
 			}
 
 			return true;
+		}
+
+		private float GetButtonHeight() => _cheatsButton.Length * _buttonHeight;
+
+		private float GetButtonWidth() => GUI.skin.button.CalcSize(new GUIContent(GetLongestButtonLabel())).x;
+
+		private string GetLongestButtonLabel()
+		{
+			string longestLabel = _cheatsButton
+				.Select(x => x.ButtonLabel)
+				.OrderByDescending(x => x)
+				.First();
+
+			return longestLabel;
 		}
 		#endregion
 		#endregion
