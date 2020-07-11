@@ -1,4 +1,4 @@
-﻿namespace TF.CheatsGUI
+namespace TF.CheatsGUI
 {
 	using System.Reflection;
 	using UnityEngine;
@@ -66,6 +66,11 @@
 			else
 			{
 				Object[] objectsOfType = Object.FindObjectsOfType(_methodInfo.DeclaringType);
+
+				if (objectsOfType.Length == 0)
+				{
+					Debug.LogWarningFormat("Found 0 GameObject of type {0} in the scene. Clicking on {1} button will do nothing.", _methodInfo.DeclaringType, ButtonLabel);
+				}
 
 				for (int i = 0, length = objectsOfType.Length; i < length; i++)
 				{
