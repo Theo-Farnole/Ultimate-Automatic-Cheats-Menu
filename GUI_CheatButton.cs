@@ -2,16 +2,18 @@
 {
 	using System.Reflection;
 	using UnityEngine;
-
-	// TODO TF: #region
+	
 	public class GUI_CheatButton
 	{
+		#region Fields
 		private readonly MethodInfo _methodInfo = null;
 		private readonly CheatMethodAttribute _cheatMethodAttribute = null;
 
 		private bool _enabled = true;
 		private string _overridedButtonLabel = null;
+		#endregion
 
+		#region Properties
 		public bool Enabled { get => _enabled; set => _enabled = value; }
 
 		// TODO TF: Nicify _methodInfo name
@@ -20,7 +22,9 @@
 			get => _overridedButtonLabel ?? _methodInfo.Name;
 			set => _overridedButtonLabel = value;
 		}
+		#endregion
 
+		#region ctor
 		public GUI_CheatButton(MethodInfo methodInfo, CheatMethodAttribute cheatMethodAttribute)
 		{
 			_methodInfo = methodInfo ?? throw new System.ArgumentNullException();
@@ -36,7 +40,9 @@
 				Debug.LogWarningFormat("Button for method '{0}' will not be drawn: attribute 'CheatMethod' doesn't support method with parameters.", _methodInfo.Name);
 			}
 		}
+		#endregion
 
+		#region Methods
 		public void Draw()
 		{
 			if (_enabled == false || _methodInfo.GetParameters().Length > 0)
@@ -67,5 +73,6 @@
 				}
 			}
 		}
+		#endregion
 	}
 }
