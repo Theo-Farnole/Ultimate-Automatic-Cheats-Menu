@@ -9,8 +9,7 @@
 
 		public GUI_CheatButton(MethodInfo methodInfo)
 		{
-			// TODO TF: Add throw ArgumentNullException if one of the variables are null
-			_methodInfo = methodInfo;
+			_methodInfo = methodInfo ?? throw new System.ArgumentNullException();
 
 			if (_methodInfo.GetParameters().Length > 0)
 			{
