@@ -16,29 +16,12 @@ namespace TF.CheatsGUI
 		[SerializeField] private KeyCode _keyToToggleCheatsMenu = KeyCode.C;
 		[SerializeField] private KeyCode[] _keysModifierToToggleCheatsMenu = new KeyCode[] { KeyCode.LeftShift }; // press SHIFT + C simulatenously
 		[Header("GUI SETTINGS")]
-		[SerializeField] private Vector2 _margin = new Vector2(10, 10);
-		[SerializeField] private float _buttonHeight = 100;
+		[SerializeField] private RectOffset _margin = new RectOffset();
 
 		// TODO TF: Able to change position of cheats menu pivot point (top left, top right, etc..)
 
 		private bool _isCheatsMenuOpen = false;
 		private GUI_CheatButton[] _cheatsButton = null;
-		#endregion
-
-		#region Properties
-		private Rect CheatsGUIRect
-		{
-			get
-			{
-				if (_cheatsButton == null)
-				{
-					Debug.LogErrorFormat("{0} Can't get menu size if _cheatsButton are null.", DEBUG_LOG_HEADER);
-					return new Rect();
-				}
-
-				return new Rect(_margin.x, _margin.y, GetButtonWidth(), GetButtonHeight());
-			}
-		}
 		#endregion
 
 		#region Methods
@@ -58,15 +41,29 @@ namespace TF.CheatsGUI
 			if (!_isCheatsMenuOpen)
 				return;
 
-			// TODO TF: add background
-			GUILayout.BeginArea(CheatsGUIRect);
+			GUIStyle margin = new GUIStyle
 			{
-				for (int i = 0, length = _cheatsButton.Length; i < length; i++)
+				margin = _margin
+			};
+
+			GUIStyle backgroundStyle = new GUIStyle(GUI.skin.box);
+			
+			// TODO TF: add label "cheats menu"			
+
+			// This first vertical group is only used to have a margin
+			GUILayout.BeginVertical(margin);
+			{
+				// This second vertical group set the background style
+				GUILayout.BeginVertical(backgroundStyle);
 				{
-					_cheatsButton[i].Draw();
+					for (int i = 0, length = _cheatsButton.Length; i < length; i++)
+					{
+						_cheatsButton[i].Draw();
+					}
 				}
+				GUILayout.EndVertical();
 			}
-			GUILayout.EndArea();
+			GUILayout.EndVertical();
 		}
 		#endregion
 
@@ -83,7 +80,7 @@ namespace TF.CheatsGUI
 		#endregion
 
 		#region Private Methods
-		void SetCheatsButton()
+		private void SetCheatsButton()
 		{
 			IEnumerable<Type> typesWithAttributes = ReflectionHelper.GetTypesWithAttribute<CheatMethodAttribute>();
 
@@ -122,19 +119,7 @@ namespace TF.CheatsGUI
 			return true;
 		}
 
-		private float GetButtonHeight() => _cheatsButton.Length * _buttonHeight;
-
-		private float GetButtonWidth() => GUI.skin.button.CalcSize(new GUIContent(GetLongestButtonLabel())).x;
-
-		private string GetLongestButtonLabel()
-		{
-			string longestLabel = _cheatsButton
-				.Select(x => x.ButtonLabel)
-				.OrderByDescending(x => x)
-				.First();
-
-			return longestLabel;
-		}
+		private int GetEnabledButtonsCount() => _cheatsButton.Where(x => x.Enabled).Count();
 		#endregion
 		#endregion
 	}
