@@ -60,6 +60,8 @@
 		#region Methods
 		public void Draw()
 		{
+			UpdateEnabledState();
+			
 			if (_enabled == false)
 				return;
 
@@ -72,7 +74,7 @@
 			}
 		}
 
-		void Apply(params object[] parameters)
+		private void Apply(params object[] parameters)
 		{
 			if (_methodInfo.IsStatic)
 			{
@@ -92,6 +94,14 @@
 					_methodInfo.Invoke(objectsOfType[i], parameters);
 				}
 			}
+		}
+
+		private void UpdateEnabledState()
+		{
+			if (_cheatMethodAttribute.ShowIfExpressionIsTrue == null)
+				return;
+			
+			_enabled = AttributeExpressionHelper.IsExpressionTrue(_cheatMethodAttribute.ShowIfExpressionIsTrue, _methodInfo.DeclaringType);
 		}
 		#endregion
 	}

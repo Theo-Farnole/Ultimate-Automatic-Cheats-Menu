@@ -19,8 +19,6 @@ namespace TF.CheatsGUI
 		[Header("GUI SETTINGS")]
 		[SerializeField] private RectOffset _margin = new RectOffset();
 
-		// TODO TF: Able to change position of cheats menu pivot point (top left, top right, etc..)
-
 		private bool _isCheatsMenuOpen = false;
 		private GUI_CheatButton[] _cheatsButton = null;
 		#endregion
