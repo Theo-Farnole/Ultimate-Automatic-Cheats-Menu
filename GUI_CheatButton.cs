@@ -6,9 +6,16 @@ namespace TF.CheatsGUI
 	public class GUI_CheatButton
 	{
 		private readonly MethodInfo _methodInfo = null;
+		private string _overridedButtonLabel = null;
 
 		// TODO TF: Be able to override _methodInfo.Name
-		public string ButtonLabel => _methodInfo.Name;
+
+		// TODO TF: Nicify _methodInfo name
+		public string ButtonLabel
+		{
+			get => _overridedButtonLabel ?? _methodInfo.Name;
+			set => _overridedButtonLabel = value;
+		}
 
 		public GUI_CheatButton(MethodInfo methodInfo)
 		{
