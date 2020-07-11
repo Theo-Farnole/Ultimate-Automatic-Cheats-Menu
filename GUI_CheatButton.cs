@@ -2,7 +2,7 @@
 {
 	using System.Reflection;
 	using UnityEngine;
-	
+
 	public class GUI_CheatButton
 	{
 		#region Fields
@@ -14,8 +14,23 @@
 		#endregion
 
 		#region Properties
-		public bool Enabled { get => _enabled; set => _enabled = value; }
-		
+		public bool Enabled
+		{
+			get => _enabled;
+			set
+			{
+				if (_methodInfo.GetParameters().Length > 0)
+				{
+					Debug.LogWarningFormat("You can force enabling of button '{0}' because drawing methods with parameters is not supported.", ButtonLabel);
+					_enabled = false;
+
+					return;
+				}
+
+				_enabled = value;
+			}
+		}
+
 		public string ButtonLabel
 		{
 			get => _overridedButtonLabel ?? _methodInfo.Name;
@@ -37,6 +52,7 @@
 			if (_methodInfo.GetParameters().Length > 0)
 			{
 				Debug.LogWarningFormat("Button for method '{0}' will not be drawn: attribute 'CheatMethod' doesn't support method with parameters.", _methodInfo.Name);
+				_enabled = false;
 			}
 		}
 		#endregion
@@ -44,7 +60,7 @@
 		#region Methods
 		public void Draw()
 		{
-			if (_enabled == false || _methodInfo.GetParameters().Length > 0)
+			if (_enabled == false)
 				return;
 
 			// TODO TF: Draw parameters (if method has parameters)
