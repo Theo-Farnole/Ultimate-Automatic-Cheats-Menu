@@ -7,6 +7,8 @@
 	public class GUI_CheatButton
 	{
 		private readonly MethodInfo _methodInfo = null;
+		private readonly CheatMethodAttribute _cheatMethodAttribute = null;
+
 		private bool _enabled = true;
 		private string _overridedButtonLabel = null;
 
@@ -19,9 +21,15 @@
 			set => _overridedButtonLabel = value;
 		}
 
-		public GUI_CheatButton(MethodInfo methodInfo)
+		public GUI_CheatButton(MethodInfo methodInfo, CheatMethodAttribute cheatMethodAttribute)
 		{
 			_methodInfo = methodInfo ?? throw new System.ArgumentNullException();
+			_cheatMethodAttribute = cheatMethodAttribute ?? throw new System.ArgumentNullException();
+
+			if (_cheatMethodAttribute.OverridedButtonLabel != null)
+			{
+				_overridedButtonLabel = _cheatMethodAttribute.OverridedButtonLabel;
+			}
 
 			if (_methodInfo.GetParameters().Length > 0)
 			{

@@ -93,7 +93,7 @@ namespace TF.CheatsGUI
 			{
 				foreach (MethodInfo method in ReflectionHelper.GetMethodsWithAttribute(type, typeof(CheatMethodAttribute)))
 				{
-					cheatsButton.Add(new GUI_CheatButton(method));
+					cheatsButton.Add(new GUI_CheatButton(method, method.GetCustomAttribute<CheatMethodAttribute>()));
 				}
 			}
 
