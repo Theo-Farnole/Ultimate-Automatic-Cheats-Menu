@@ -11,8 +11,6 @@
 		// inspired from https://stackoverflow.com/questions/607178/how-enumerate-all-classes-with-custom-class-attribute
 		public static IEnumerable<Type> GetTypesWithAttribute<T>() where T : Attribute
 		{
-			Debug.LogFormat("typeof(T) {0}", typeof(T));
-
 			return AppDomain.CurrentDomain.GetAssemblies()
 				.SelectMany(asm => asm.GetTypes())
 				.SelectMany(type => type.GetMethods())
