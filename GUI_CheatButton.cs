@@ -1,4 +1,4 @@
-namespace TF.CheatsGUI
+﻿namespace TF.CheatsGUI
 {
 	using System.Reflection;
 	using UnityEngine;
@@ -15,8 +15,7 @@ namespace TF.CheatsGUI
 
 		#region Properties
 		public bool Enabled { get => _enabled; set => _enabled = value; }
-
-		// TODO TF: Nicify _methodInfo name
+		
 		public string ButtonLabel
 		{
 			get => _overridedButtonLabel ?? _methodInfo.Name;
