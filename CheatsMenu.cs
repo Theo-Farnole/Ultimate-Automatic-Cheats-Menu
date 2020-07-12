@@ -7,7 +7,8 @@ namespace TF.CheatsGUI
 	using System.Reflection;
 	using System.Linq;
 
-	public class CheatsGUIManager : MonoBehaviour
+	[AddComponentMenu("Cheats/CheatsMenu")]
+	public class CheatsMenu : MonoBehaviour
 	{
 		#region Fields
 		public const string DEBUG_LOG_HEADER = "<color=cyan>Cheats GUI</color> :";
