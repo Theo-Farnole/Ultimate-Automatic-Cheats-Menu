@@ -21,21 +21,20 @@ namespace TF.CheatsGUI
 
 		private bool _isCheatsMenuOpen = false;
 		private GUI_CheatButton[] _cheatsButton = null;
+		private Vector2 _scrollPosition = Vector2.zero;
 		#endregion
 
 		#region Properties
-		private GUIStyle BackgroundStyle => new GUIStyle(GUI.skin.box);
+		private GUIStyle BackgroundStyle => new GUIStyle(GUI.skin.box)
+		{
+			margin = _margin
+		};
 		private GUIStyle MarginStyle => new GUIStyle { margin = _margin };
 		private GUIStyle MenuTitleStyle => new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
 		#endregion
 
 		#region Methods
 		#region MonoBehaviour Callbacks
-		private void Start()
-		{
-			SetCheatsButton();
-		}
-
 		private void Update()
 		{
 			HandleToggleCheatsMenuInputs();
@@ -46,22 +45,29 @@ namespace TF.CheatsGUI
 			if (!_isCheatsMenuOpen)
 				return;
 
-			// TODO TF: Replace vertical by a scroll view
+			if (_cheatsButton == null)
+				SetCheatsButton();
 
 			// This first vertical group is only used to have a margin
 			GUILayout.BeginVertical(MarginStyle);
 			{
-				// This second vertical group set the background style
+				//	// This second vertical group set the background style
 				GUILayout.BeginVertical(BackgroundStyle);
 				{
-					GUILayout.Label(MENU_TITLE, MenuTitleStyle);
-
-					int buttonWidth = GetLongestButtonWidth();
-
-					for (int i = 0, length = _cheatsButton.Length; i < length; i++)
+					_scrollPosition = GUILayout.BeginScrollView(_scrollPosition, false, false, GUIStyle.none, GUI.skin.verticalScrollbar, GUILayout.ExpandWidth(true));
 					{
-						_cheatsButton[i].Draw(GUILayout.Width(buttonWidth));
+						GUILayout.BeginVertical();
+						GUILayout.Label(MENU_TITLE, MenuTitleStyle);
+
+						int buttonWidth = GetLongestButtonWidth();
+
+						for (int i = 0, length = _cheatsButton.Length; i < length; i++)
+						{
+							_cheatsButton[i].Draw(GUILayout.Width(buttonWidth));
+						}
+						GUILayout.EndVertical();
 					}
+					GUILayout.EndScrollView();
 				}
 				GUILayout.EndVertical();
 			}
