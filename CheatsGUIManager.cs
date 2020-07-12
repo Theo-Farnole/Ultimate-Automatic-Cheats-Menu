@@ -46,6 +46,8 @@ namespace TF.CheatsGUI
 			if (!_isCheatsMenuOpen)
 				return;
 
+			// TODO TF: Replace vertical by a scroll view
+
 			// This first vertical group is only used to have a margin
 			GUILayout.BeginVertical(MarginStyle);
 			{
@@ -54,9 +56,11 @@ namespace TF.CheatsGUI
 				{
 					GUILayout.Label(MENU_TITLE, MenuTitleStyle);
 
+					int buttonWidth = GetLongestButtonWidth();
+
 					for (int i = 0, length = _cheatsButton.Length; i < length; i++)
 					{
-						_cheatsButton[i].Draw();
+						_cheatsButton[i].Draw(GUILayout.Width(buttonWidth));
 					}
 				}
 				GUILayout.EndVertical();
@@ -118,6 +122,10 @@ namespace TF.CheatsGUI
 		}
 
 		private int GetEnabledButtonsCount() => _cheatsButton.Where(x => x.Enabled).Count();
+
+		private int GetLongestButtonWidth() => (int)GUI.skin.button.CalcSize(new GUIContent(GetLongestButtonLabel())).x;
+
+		private string GetLongestButtonLabel() => _cheatsButton.OrderByDescending(x => x.ButtonLabel.Length).Select(x => x.ButtonLabel).First();
 		#endregion
 		#endregion
 	}
