@@ -1,14 +1,14 @@
 namespace TF.CheatsGUI
 {
-	using UnityEngine;
-	using TF.CheatsGUI.Utilities;
-	using System.Collections.Generic;
 	using System;
-	using System.Reflection;
+	using System.Collections.Generic;
 	using System.Linq;
+	using System.Reflection;
+	using TF.CheatsGUI.Utilities;
+	using UnityEngine;
 
 	[AddComponentMenu("Cheats/CheatsMenu")]
-	public class CheatsMenu : MonoBehaviour
+	internal class CheatsMenu : MonoBehaviour
 	{
 		#region Fields
 		public const string DEBUG_LOG_HEADER = "<color=cyan>Cheats GUI</color> :";

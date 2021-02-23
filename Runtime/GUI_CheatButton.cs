@@ -6,7 +6,7 @@
 	using System.Reflection;
 	using UnityEngine;
 
-	public class GUI_CheatButton
+	internal class GUI_CheatButton
 	{
 		#region Fields
 		private static readonly Type[] SUPPORTED_PARAMETER_TYPE = new Type[] { typeof(int), typeof(float), typeof(string), typeof(bool) };

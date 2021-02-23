@@ -1,12 +1,10 @@
 ﻿namespace TF.CheatsGUI
 {
-	using System.Collections;
-	using System.Collections.Generic;
-	using UnityEngine;
-	using System.Reflection;
 	using System;
+	using System.Reflection;
+	using UnityEngine;
 
-	public static class AttributeExpressionHelper
+	internal static class AttributeExpressionHelper
 	{
 		private const BindingFlags FLAGS = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
 

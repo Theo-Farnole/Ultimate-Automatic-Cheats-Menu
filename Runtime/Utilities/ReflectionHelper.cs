@@ -6,7 +6,7 @@
 	using System.Reflection;
 	using UnityEngine;
 
-	public static class ReflectionHelper
+	internal static class ReflectionHelper
 	{
 		// inspired from https://stackoverflow.com/questions/607178/how-enumerate-all-classes-with-custom-class-attribute
 		public static IEnumerable<Type> GetTypesWithAttribute<T>() where T : Attribute
