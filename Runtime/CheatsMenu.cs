@@ -20,7 +20,7 @@ namespace TF.CheatsGUI
 		[SerializeField] private RectOffset _margin = new RectOffset();
 
 		private bool _isCheatsMenuOpen = false;
-		private GUI_CheatButton[] _cheatsButton = new GUI_CheatButton[0];
+		private GUI_CheatButton[] _cheatsButton = null;
 		private Vector2 _scrollPosition = Vector2.zero;
 		#endregion
 
