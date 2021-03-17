@@ -6,6 +6,7 @@ namespace TF.CheatsGUI
 	using System.Reflection;
 	using TF.CheatsGUI.Utilities;
 	using UnityEngine;
+	using UnityEngine.InputSystem;
 
 	[AddComponentMenu("Cheats/CheatsMenu")]
 	internal class CheatsMenu : MonoBehaviour
@@ -14,13 +15,7 @@ namespace TF.CheatsGUI
 		public const string DEBUG_LOG_HEADER = "<color=cyan>Cheats GUI</color> :";
 		private const string MENU_TITLE = "Cheats Menu";
 
-#if !ENABLE_INPUT_SYSTEM
-		[Header("INPUTS SETTINGS")]
-		[SerializeField] private KeyCode _keyToToggleCheatsMenu = KeyCode.C;
-		[SerializeField] private KeyCode[] _keysModifierToToggleCheatsMenu = new KeyCode[] { KeyCode.LeftShift }; // press SHIFT + C simulatenously
-#else
-		[SerializeField] private UnityEngine.InputSystem.Key _toggleCheatMenu = UnityEngine.InputSystem.Key.C;
-#endif
+		[SerializeField] private Key _toggleCheatMenu = Key.C;
 		[Header("GUI SETTINGS")]
 		[SerializeField] private RectOffset _margin = new RectOffset();
 
@@ -129,20 +124,7 @@ namespace TF.CheatsGUI
 
 		private bool AreKeysToToggleCheatsMenuAreDown()
 		{
-#if ENABLE_INPUT_SYSTEM
-			return UnityEngine.InputSystem.Keyboard.current.shiftKey.isPressed == true && UnityEngine.InputSystem.Keyboard.current[_toggleCheatMenu].wasPressedThisFrame;
-#else
-			if (Input.GetKeyDown(_keyToToggleCheatsMenu) == false)
-				return false;
-
-			for (int i = 0, length = _keysModifierToToggleCheatsMenu.Length; i < length; i++)
-			{
-				if (Input.GetKey(_keysModifierToToggleCheatsMenu[i]) == false)
-					return false;
-			}
-
-			return true;
-#endif
+			return Keyboard.current.shiftKey.isPressed == true && Keyboard.current[_toggleCheatMenu].wasPressedThisFrame;
 		}
 
 		private int GetEnabledButtonsCount() => _cheatsButton.Where(x => x.Enabled).Count();
