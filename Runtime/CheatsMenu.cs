@@ -14,9 +14,11 @@ namespace TF.CheatsGUI
 		public const string DEBUG_LOG_HEADER = "<color=cyan>Cheats GUI</color> :";
 		private const string MENU_TITLE = "Cheats Menu";
 
+#if !ENABLE_INPUT_SYSTEM
 		[Header("INPUTS SETTINGS")]
 		[SerializeField] private KeyCode _keyToToggleCheatsMenu = KeyCode.C;
 		[SerializeField] private KeyCode[] _keysModifierToToggleCheatsMenu = new KeyCode[] { KeyCode.LeftShift }; // press SHIFT + C simulatenously
+#endif
 		[Header("GUI SETTINGS")]
 		[SerializeField] private RectOffset _margin = new RectOffset();
 
@@ -116,6 +118,9 @@ namespace TF.CheatsGUI
 
 		private bool AreKeysToToggleCheatsMenuAreDown()
 		{
+#if ENABLE_INPUT_SYSTEM
+			return UnityEngine.InputSystem.Keyboard.current.shiftKey.isPressed == true && UnityEngine.InputSystem.Keyboard.current[UnityEngine.InputSystem.Key.C].isPressed;
+#else
 			if (Input.GetKeyDown(_keyToToggleCheatsMenu) == false)
 				return false;
 
@@ -126,6 +131,7 @@ namespace TF.CheatsGUI
 			}
 
 			return true;
+#endif
 		}
 
 		private int GetEnabledButtonsCount() => _cheatsButton.Where(x => x.Enabled).Count();
