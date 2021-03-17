@@ -18,12 +18,14 @@ namespace TF.CheatsGUI
 		[Header("INPUTS SETTINGS")]
 		[SerializeField] private KeyCode _keyToToggleCheatsMenu = KeyCode.C;
 		[SerializeField] private KeyCode[] _keysModifierToToggleCheatsMenu = new KeyCode[] { KeyCode.LeftShift }; // press SHIFT + C simulatenously
+#else
+		[SerializeField] private UnityEngine.InputSystem.Key _toggleCheatMenu = UnityEngine.InputSystem.Key.C;
 #endif
 		[Header("GUI SETTINGS")]
 		[SerializeField] private RectOffset _margin = new RectOffset();
 
 		private bool _isCheatsMenuOpen = false;
-		private GUI_CheatButton[] _cheatsButton = null;
+		private GUI_CheatButton[] _cheatsButton = new GUI_CheatButton[0];
 		private Vector2 _scrollPosition = Vector2.zero;
 		#endregion
 
@@ -60,13 +62,22 @@ namespace TF.CheatsGUI
 					_scrollPosition = GUILayout.BeginScrollView(_scrollPosition, false, false, GUIStyle.none, GUI.skin.verticalScrollbar, GUILayout.ExpandWidth(true));
 					{
 						GUILayout.BeginVertical();
-						GUILayout.Label(MENU_TITLE, MenuTitleStyle);
-
-						int buttonWidth = GetLongestButtonWidth();
-
-						for (int i = 0, length = _cheatsButton.Length; i < length; i++)
 						{
-							_cheatsButton[i].Draw(GUILayout.Width(buttonWidth));
+							GUILayout.Label(MENU_TITLE, MenuTitleStyle);
+
+							if (_cheatsButton.Length == 0)
+							{
+								GUILayout.Label("No cheats found.");
+							}
+							else
+							{
+								int buttonWidth = GetLongestButtonWidth();
+
+								for (int i = 0, length = _cheatsButton.Length; i < length; i++)
+								{
+									_cheatsButton[i].Draw(GUILayout.Width(buttonWidth));
+								}
+							}
 						}
 						GUILayout.EndVertical();
 					}
@@ -119,7 +130,7 @@ namespace TF.CheatsGUI
 		private bool AreKeysToToggleCheatsMenuAreDown()
 		{
 #if ENABLE_INPUT_SYSTEM
-			return UnityEngine.InputSystem.Keyboard.current.shiftKey.isPressed == true && UnityEngine.InputSystem.Keyboard.current[UnityEngine.InputSystem.Key.C].isPressed;
+			return UnityEngine.InputSystem.Keyboard.current.shiftKey.isPressed == true && UnityEngine.InputSystem.Keyboard.current[_toggleCheatMenu].wasPressedThisFrame;
 #else
 			if (Input.GetKeyDown(_keyToToggleCheatsMenu) == false)
 				return false;
@@ -138,7 +149,7 @@ namespace TF.CheatsGUI
 
 		private int GetLongestButtonWidth() => (int)GUI.skin.button.CalcSize(new GUIContent(GetLongestButtonLabel())).x;
 
-		private string GetLongestButtonLabel() => _cheatsButton.OrderByDescending(x => x.ButtonLabel.Length).Select(x => x.ButtonLabel).First();
+		private string GetLongestButtonLabel() => _cheatsButton.OrderByDescending(x => x.ButtonLabel.Length).Select(x => x.ButtonLabel).FirstOrDefault();
 		#endregion
 		#endregion
 	}
